@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Migrate the database and the data.
+./bin/rake db:migrate:with_data
