@@ -9,13 +9,13 @@ gem 'puma', '~> 3.0'
 gem 'date_validator'
 
 gem 'data_migrate', '~> 4.0.0'
+gem 'faker'
 gem 'progress_bar'
 
 group :development, :test do
   gem 'byebug'
   gem 'pry-rails'
 
-  gem 'faker'
   gem 'rspec-rails', '~> 3.8'
 end
 
