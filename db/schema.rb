@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181025181225) do
+ActiveRecord::Schema.define(version: 20181025181615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
+
+  create_table "chores", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "starts_at",  null: false
+    t.datetime "ends_at",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "user_id, tsrange(starts_at, ends_at, '[]'::text)", name: "no_overlapping_chores_for_user", using: :gist
+    t.index ["user_id"], name: "index_chores_on_user_id", using: :btree
+  end
 
   create_table "data_migrations", id: false, force: :cascade do |t|
     t.string "version", null: false
@@ -28,4 +39,5 @@ ActiveRecord::Schema.define(version: 20181025181225) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "chores", "users"
 end
