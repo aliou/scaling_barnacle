@@ -1,3 +1,10 @@
+PATH
+  remote: ../tablature
+  specs:
+    tablature (0.0.0)
+      activerecord (>= 5.0.0)
+      railties (>= 5.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -169,6 +176,7 @@ DEPENDENCIES
   rspec-rails (~> 3.8)
   spring
   spring-watcher-listen (~> 2.0.0)
+  tablature!
 
 BUNDLED WITH
    1.16.6

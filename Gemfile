@@ -12,6 +12,8 @@ gem 'data_migrate', '~> 4.0.0'
 gem 'faker'
 gem 'progress_bar'
 
+gem 'tablature', path: '../tablature'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-rails'
