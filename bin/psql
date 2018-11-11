@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+psql -d scaling_barnacle_development $@
