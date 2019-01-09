@@ -1,7 +1,7 @@
 PATH
   remote: ../tablature
   specs:
-    tablature (0.0.0)
+    tablature (0.1.1)
       activerecord (>= 5.0.0)
       railties (>= 5.0.0)
 
@@ -179,4 +179,4 @@ DEPENDENCIES
   tablature!
 
 BUNDLED WITH
-   1.16.6
+   1.17.2
