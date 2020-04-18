@@ -7,8 +7,11 @@ class CreateEvents < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    2_000.times.each_with_index do |index|
-      Event.create!(event_type: 'test', value: index, timestamp: DateTime.current + index.days)
+    say_with_time('Creating events') do
+      2_000.times.each_with_index do |index|
+        Event.create!(event_type: 'test', value: index, timestamp: DateTime.current + index.days)
+        printf '.'
+      end
     end
   end
 
