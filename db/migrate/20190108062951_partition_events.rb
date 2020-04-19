@@ -1,5 +1,5 @@
 class PartitionEvents < ActiveRecord::Migration[5.0]
-  def change
+  def up
     # Get the bounds of the events.
     min_month = Event.minimum(:timestamp).beginning_of_month.to_date
     max_month = Event.maximum(:timestamp).beginning_of_month.to_date
@@ -12,7 +12,10 @@ class PartitionEvents < ActiveRecord::Migration[5.0]
     rename_table :events, :old_events
 
     # Create the partitioned table.
-    create_range_partition :events, partition_key: -> { '(timestamp::DATE)' } do |t|
+    options = { partition_key: -> { '(timestamp::DATE)' } }
+
+    create_range_partition :events, options do |t|
+      t.bigserial :id, null: false
       t.string :event_type, null: false
       t.integer :value, null: false
       t.datetime :timestamp, null: false
@@ -34,10 +37,25 @@ class PartitionEvents < ActiveRecord::Migration[5.0]
       INSERT INTO events
       SELECT * FROM old_events
     SQL
+
+    drop_table :old_events
   end
 
   def down
+    create_table :old_events do |t|
+      t.string :event_type, null: false
+      t.integer :value, null: false
+      t.datetime :timestamp, null: false
+      t.timestamps
+    end
+
+    execute(<<~SQL)
+      INSERT INTO old_events
+      SELECT * FROM events
+    SQL
+
     drop_table :events
+
     rename_table :old_events, :events
   end
 end
