@@ -1,7 +1,7 @@
 class CreateEvents < ActiveRecord::Migration[5.0]
   def up
     create_table :events do |t|
-      t.string :event_type, null: false
+      t.string :event_type, null: false, index: true
       t.integer :value, null: false
       t.datetime :timestamp, null: false
       t.timestamps
