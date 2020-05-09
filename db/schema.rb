@@ -26,6 +26,11 @@ ActiveRecord::Schema.define(version: 20190108062951) do
     t.index ["user_id"], name: "index_chores_on_user_id", using: :btree
   end
 
+  create_table "data_migrations", id: false, force: :cascade do |t|
+    t.string "version", null: false
+    t.index ["version"], name: "unique_data_migrations", unique: true, using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "email",      null: false

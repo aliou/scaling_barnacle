@@ -22,6 +22,8 @@ class PartitionEvents < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
+    add_index :events, :event_type
+
     # Create the partitions based on the bounds generated before:
     months.each do |month|
       # Creates a name like "events_y2018m12"
@@ -38,24 +40,6 @@ class PartitionEvents < ActiveRecord::Migration[5.0]
       SELECT * FROM old_events
     SQL
 
-    drop_table :old_events
-  end
-
-  def down
-    create_table :old_events do |t|
-      t.string :event_type, null: false
-      t.integer :value, null: false
-      t.datetime :timestamp, null: false
-      t.timestamps
-    end
-
-    execute(<<~SQL)
-      INSERT INTO old_events
-      SELECT * FROM events
-    SQL
-
-    drop_table :events
-
-    rename_table :old_events, :events
+    drop_table :old_events, proc {}
   end
 end
