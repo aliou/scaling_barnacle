@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190108062951) do
+ActiveRecord::Schema.define(version: 20200524201049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,4 +40,20 @@ ActiveRecord::Schema.define(version: 20190108062951) do
   end
 
   add_foreign_key "chores", "users"
+
+  create_range_partition "events", partition_key: '((("timestamp")::date))' do |t|
+    t.bigserial "id",         null: false
+    t.string    "event_type", null: false
+    t.integer   "value",      null: false
+    t.datetime  "timestamp",  null: false
+    t.datetime  "created_at", null: false
+    t.datetime  "updated_at", null: false
+    t.integer   "user_id"
+  end
+
+  add_index "events", ["event_type"], name: "index_events_on_event_type", using: :btree
+  add_index "events", ["id", "event_type"], name: "index_events_on_event_type_and_id", using: :btree
+  add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
+
+  add_foreign_key "events", "users"
 end
